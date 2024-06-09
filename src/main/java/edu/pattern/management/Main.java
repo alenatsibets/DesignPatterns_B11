@@ -12,6 +12,10 @@ import edu.pattern.management.strategy.impl.DefaultStrategy;
 import edu.pattern.management.strategy.impl.TwiceDebugStrategy;
 import edu.pattern.management.strategy.impl.UsualStrategy;
 
+/**
+ * This class is created as a client to processed project functionality.
+ */
+
 public class Main {
     public static void main(String[] args) {
         TaskFactory bugFactory = new BugTaskFactory();
