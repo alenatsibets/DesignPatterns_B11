@@ -16,6 +16,7 @@ public class CompositeTaskHandler extends AbstractTaskHandler {
 
     @Override
     protected void processTask(Task task) {
+        logger.info("CompositeTaskHandler processTask" );
         System.out.println("CompositeTaskHandler:");
         CompositeTask task1 = (CompositeTask) task;
         for (Task subTask : task1.getTasks()) {

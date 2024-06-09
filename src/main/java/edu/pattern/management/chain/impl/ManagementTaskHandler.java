@@ -16,6 +16,7 @@ public class ManagementTaskHandler extends AbstractTaskHandler {
 
     @Override
     protected void processTask(Task task) {
+        logger.info("ManagementTaskHandler processTask" );
         System.out.println("ManagementTaskHandler:");
         task.process();
     }

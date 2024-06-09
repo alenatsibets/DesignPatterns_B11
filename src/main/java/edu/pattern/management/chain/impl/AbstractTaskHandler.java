@@ -2,11 +2,14 @@ package edu.pattern.management.chain.impl;
 
 import edu.pattern.management.chain.TaskHandler;
 import edu.pattern.management.entity.Task;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class AbstractTaskHandler implements TaskHandler {
+    static Logger logger = LogManager.getLogger();
     private final TaskHandler successor;
 
-    public AbstractTaskHandler(TaskHandler successor) {
+    protected AbstractTaskHandler(TaskHandler successor) {
         this.successor = successor;
     }
 
@@ -21,6 +24,7 @@ public abstract class AbstractTaskHandler implements TaskHandler {
         }
         if (successor != null) {
             successor.handleTask(task);
+            logger.info("handleTask: successor = " + successor);
         }
     }
 

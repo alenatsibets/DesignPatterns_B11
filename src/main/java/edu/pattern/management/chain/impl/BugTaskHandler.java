@@ -16,6 +16,7 @@ public class BugTaskHandler extends AbstractTaskHandler {
 
     @Override
     protected void processTask(Task task) {
+        logger.info("BugTaskHandler processTask" );
         System.out.println("BugTaskHandler:");
         task.process();
     }

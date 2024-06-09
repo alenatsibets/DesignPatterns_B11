@@ -16,6 +16,7 @@ public class FeatureTaskHandler extends AbstractTaskHandler {
 
     @Override
     protected void processTask(Task task) {
+        logger.info("FeatureTaskHandler processTask" );
         System.out.println("FeatureTaskHandler:");
         task.process();
     }
