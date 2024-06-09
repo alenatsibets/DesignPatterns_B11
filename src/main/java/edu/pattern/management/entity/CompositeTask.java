@@ -51,10 +51,11 @@ public class CompositeTask extends Task {
             case TO_DO:
                 this.setStatus(IN_PROCESS);
             case IN_PROCESS:
-                System.out.println("CompositeTask: --process");
+                System.out.println("CompositeTask is processed... ");
                 for (Task task : tasks) {
                     task.process();
                 }
+                this.finish();
                 break;
             case DONE:
                 System.out.println("This CompositeTask is completed.");

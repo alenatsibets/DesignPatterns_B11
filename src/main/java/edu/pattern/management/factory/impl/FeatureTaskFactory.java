@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class FeatureTaskFactory implements TaskFactory {
-    static Logger logger = LogManager.getLogger();
     @Override
     public Task createTask(String name, String deadline, String personName, String description) {
         logger.info("Creating FeatureTask");
