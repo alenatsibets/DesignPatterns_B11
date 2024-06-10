@@ -1,3 +1,5 @@
+package edu.pattern.management;
+
 import edu.pattern.management.chain.impl.BugTaskHandler;
 import edu.pattern.management.chain.impl.CompositeTaskHandler;
 import edu.pattern.management.chain.impl.FeatureTaskHandler;
