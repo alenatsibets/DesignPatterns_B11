@@ -7,7 +7,14 @@ import edu.pattern.management.chain.impl.ManagementTaskHandler;
 import edu.pattern.management.entity.*;
 import edu.pattern.management.strategy.TaskProcessingStrategy;
 
+/**
+ * DefaultStrategy class is a realisation of a Strategy design pattern. It is used for handling a single Task.
+ */
 public class DefaultStrategy implements TaskProcessingStrategy {
+    /**
+     * Method for calling corresponding TaskHandler to process single Task.
+     * @param task task to handle
+     */
     @Override
     public void processTask(Task task) {
         switch (task) {
