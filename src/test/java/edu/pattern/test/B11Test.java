@@ -33,11 +33,18 @@ public class B11Test {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
+    /**
+     * Sets up the standard output stream to be redirected to a {@link ByteArrayOutputStream}
+     * before each test. This allows capturing of the output for verification.
+     */
     @BeforeEach
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
     }
 
+    /**
+     * Restores the standard output stream to its original state after each test.
+     */
     @AfterEach
     public void restoreStreams() {
         System.setOut(originalOut);
