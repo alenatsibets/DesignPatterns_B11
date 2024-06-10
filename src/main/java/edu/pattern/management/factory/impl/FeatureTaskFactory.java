@@ -10,10 +10,6 @@ import edu.pattern.management.entity.FeatureTask;
 public class FeatureTaskFactory implements TaskFactory {
     /**
      * Method for creating a new FeatureTask.
-     * @param name
-     * @param deadline
-     * @param personName
-     * @param description
      * @return new FeatureTask
      */
     @Override

@@ -9,10 +9,6 @@ import static edu.pattern.management.entity.TaskStatus.IN_PROCESS;
 public class FeatureTask extends Task {
     /**
      * Constructor method for creating a FeatureTask.
-     * @param name
-     * @param deadline
-     * @param personName
-     * @param description
      */
     public FeatureTask(String name, String deadline, String personName, String description) {
         super(name, deadline, personName, description);

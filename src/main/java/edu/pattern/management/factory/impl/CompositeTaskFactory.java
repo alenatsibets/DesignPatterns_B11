@@ -10,10 +10,6 @@ import edu.pattern.management.factory.TaskFactory;
 public class CompositeTaskFactory implements TaskFactory {
     /**
      * Method for creating a new CompositeTask.
-     * @param name
-     * @param deadline
-     * @param personName
-     * @param description
      * @return new CompositeTask
      */
     @Override

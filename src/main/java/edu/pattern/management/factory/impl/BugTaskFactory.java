@@ -10,10 +10,6 @@ import edu.pattern.management.entity.BugTask;
 public class BugTaskFactory implements TaskFactory {
     /**
      * BugTaskFactory for creating a new BugTask.
-     * @param name
-     * @param deadline
-     * @param personName
-     * @param description
      * @return new BugTask
      */
     @Override

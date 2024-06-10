@@ -15,10 +15,6 @@ public interface TaskFactory {
 
     /**
      * Method for creating a specific Task.
-     * @param name
-     * @param deadline
-     * @param personName
-     * @param description
      * @return new Task
      */
     Task createTask(String name, String deadline, String personName, String description);

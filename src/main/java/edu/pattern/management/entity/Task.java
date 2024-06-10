@@ -32,10 +32,6 @@ public abstract class Task {
 
     /**
      * Constructor method for creating a Task. Initially status is set as TO_DO.
-     * @param name
-     * @param deadline
-     * @param personName
-     * @param description
      */
     public Task(String name, String deadline, String personName, String description) {
         this.name = name;

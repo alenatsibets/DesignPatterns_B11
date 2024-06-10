@@ -10,10 +10,6 @@ import edu.pattern.management.factory.TaskFactory;
 public class ManagementTaskFactory implements TaskFactory {
     /**
      * Method for creating a new ManagementTask.
-     * @param name
-     * @param deadline
-     * @param personName
-     * @param description
      * @return new ManagementTask
      */
     @Override
