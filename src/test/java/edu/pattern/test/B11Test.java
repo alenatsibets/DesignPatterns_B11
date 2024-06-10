@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Tests for a project.
  */
-public class B11Test {
+class B11Test {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
@@ -52,12 +52,12 @@ public class B11Test {
 
     //Status checks
     @Test
-    void checkStatusOfCteatedTask() {
+    void checkStatusOfCreatedTask() {
         TaskFactory bugFactory = new BugTaskFactory();
         Task bugTask = bugFactory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
                 "BugTask: Investigate and resolve the database connection problem affecting the application.");
 
-        assertEquals(bugTask.status, TaskStatus.TO_DO);
+        assertEquals(TaskStatus.TO_DO, bugTask.status);
     }
     @Test
     void checkStatusOfProcessedTask() {
@@ -66,7 +66,7 @@ public class B11Test {
                 "BugTask: Investigate and resolve the database connection problem affecting the application.");
         bugTask.process();
 
-        assertEquals(bugTask.status, TaskStatus.DONE);
+        assertEquals(TaskStatus.DONE, bugTask.status);
     }
     @Test
     void checkStatusOfTaskInProcess() {
@@ -75,7 +75,7 @@ public class B11Test {
                 "BugTask: Investigate and resolve the database connection problem affecting the application.");
         bugTask.setStatus(TaskStatus.IN_PROCESS);
 
-        assertEquals(bugTask.status, TaskStatus.IN_PROCESS);
+        assertEquals(TaskStatus.IN_PROCESS, bugTask.status);
     }
 
     //Task processing output
