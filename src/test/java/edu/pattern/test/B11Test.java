@@ -1,4 +1,4 @@
-package edu.pattern.management;
+package edu.pattern.test;
 
 import edu.pattern.management.chain.impl.BugTaskHandler;
 import edu.pattern.management.chain.impl.CompositeTaskHandler;
