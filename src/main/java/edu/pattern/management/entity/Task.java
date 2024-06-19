@@ -48,6 +48,7 @@ public abstract class Task {
 
     /**
      * Method for checking whether the status of the Task is DONE.
+     *
      * @return boolean value
      */
     public boolean isCompleted() {
@@ -66,6 +67,7 @@ public abstract class Task {
 
     /**
      * Method for getting name of the Task.
+     *
      * @return existing name
      */
     public String getName() {
@@ -74,6 +76,7 @@ public abstract class Task {
 
     /**
      * Method for setting new name to the Task.
+     *
      * @param name new name
      */
     public void setName(String name) {
@@ -82,6 +85,7 @@ public abstract class Task {
 
     /**
      * Method for getting description of the Task.
+     *
      * @return existing description
      */
     public String getDescription() {
@@ -90,6 +94,7 @@ public abstract class Task {
 
     /**
      * Method for setting new description to the Task.
+     *
      * @param description new description
      */
     public void setDescription(String description) {
@@ -98,6 +103,7 @@ public abstract class Task {
 
     /**
      * Method for getting deadline of the Task.
+     *
      * @return existing deadline
      */
     public String getDeadline() {
@@ -106,6 +112,7 @@ public abstract class Task {
 
     /**
      * Method for setting new deadline to the Task.
+     *
      * @param deadline new deadline
      */
     public void setDeadline(String deadline) {
@@ -114,6 +121,7 @@ public abstract class Task {
 
     /**
      * Method for getting name of responsible person of the Task.
+     *
      * @return existing person name
      */
     public String getPersonName() {
@@ -122,6 +130,7 @@ public abstract class Task {
 
     /**
      * Method for setting new name of responsible person of the Task.
+     *
      * @param personName new person name
      */
     public void setPersonName(String personName) {
@@ -130,6 +139,7 @@ public abstract class Task {
 
     /**
      * Method for getting status of the Task.
+     *
      * @return existing status
      */
     public TaskStatus getStatus() {
@@ -138,6 +148,7 @@ public abstract class Task {
 
     /**
      * Method for setting new status to the Task.
+     *
      * @param status new status
      */
     public void setStatus(TaskStatus status) {

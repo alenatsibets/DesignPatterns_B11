@@ -2,54 +2,86 @@ package edu.pattern.management;
 
 import edu.pattern.management.entity.CompositeTask;
 import edu.pattern.management.entity.Task;
+import edu.pattern.management.exception.TaskException;
 import edu.pattern.management.factory.TaskFactory;
-import edu.pattern.management.factory.impl.BugTaskFactory;
-import edu.pattern.management.factory.impl.CompositeTaskFactory;
-import edu.pattern.management.factory.impl.FeatureTaskFactory;
-import edu.pattern.management.factory.impl.ManagementTaskFactory;
+import edu.pattern.management.factory.impl.*;
 import edu.pattern.management.strategy.Context;
 import edu.pattern.management.strategy.impl.DefaultStrategy;
 import edu.pattern.management.strategy.impl.TwiceDebugStrategy;
 import edu.pattern.management.strategy.impl.UsualStrategy;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class is created as a client to processed project functionality.
  */
 
 public class Main {
+    /**
+     * Logger (configuration is declared in log4j2.xml file).
+     */
+    static Logger logger = LogManager.getLogger();
+
     public static void main(String[] args) {
-        TaskFactory bugFactory = new BugTaskFactory();
-        TaskFactory featureFactory = new FeatureTaskFactory();
-        ManagementTaskFactory managementTaskFactory = new ManagementTaskFactory();
-        CompositeTaskFactory compositeTaskFactory = new CompositeTaskFactory();
+        TaskFactory factory = new GeneralTaskFactory();
 
-        Task bugTask = bugFactory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
-                "BugTask: Investigate and resolve the database connection problem affecting the application.");
-        Task bugTask2 = bugFactory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
-                "BugTask: Investigate and resolve the database connection problem affecting the application.");
-        Task featureTask = featureFactory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
-                "FeatureTask: Create a secure authentication system for user login.");
-        Task managementTask = managementTaskFactory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
-                "ManagementTask: Organize agenda and schedule for the team meeting.");
-
-        CompositeTask compositeTask = (CompositeTask) compositeTaskFactory.createTask("User authentication", "2024-06-02", "Alice Johnson",
-                "CompositeTask: Create and debug a secure authentication system for user login.");
-        compositeTask.addTask(managementTask);
-        compositeTask.addTask(featureTask);
-        compositeTask.addTask(bugTask);
+        Task bugTask = null;
+        try {
+            bugTask = factory.createTask("task/bugTask.yaml");
+        } catch (TaskException e) {
+            logger.error("Cannot read from file");
+        }
+        Task bugTask2 = null;
+        try {
+            bugTask2 = factory.createTask("task/bugTask.yaml");
+        } catch (TaskException e) {
+            logger.error("Cannot read from file");
+        }
+        Task featureTask = null;
+        try {
+            featureTask = factory.createTask("task/featureTask.yaml");
+        } catch (TaskException e) {
+            logger.error("Cannot read from file");
+        }
+        Task managementTask = null;
+        try {
+            managementTask = factory.createTask("task/managementTask.yaml");
+        } catch (TaskException e) {
+            logger.error("Cannot read from file");
+        }
+        CompositeTask compositeTask = null;
+        try {
+            compositeTask = (CompositeTask) factory.createTask("task/compositeTask.yaml");
+        } catch (TaskException e) {
+            logger.error("Cannot read from file");
+        }
 
         Context defualtContext = new Context(new DefaultStrategy());
-        defualtContext.executeStrategy(managementTask);
-        defualtContext.executeStrategy(featureTask);
-        defualtContext.executeStrategy(bugTask);
-        defualtContext.executeStrategy(compositeTask);
-        System.out.println();
-
         Context usualContext = new Context(new UsualStrategy());
-        usualContext.executeStrategy(compositeTask);
-        System.out.println();
-
         Context twiceDebugContext = new Context(new TwiceDebugStrategy());
-        twiceDebugContext.executeStrategy(bugTask2);
+        if (compositeTask != null) {
+            compositeTask.addTask(managementTask);
+            compositeTask.addTask(featureTask);
+            compositeTask.addTask(bugTask);
+            System.out.println();
+            defualtContext.executeStrategy(compositeTask);
+            System.out.println();
+            usualContext.executeStrategy(compositeTask);
+            System.out.println();
+        }
+
+        if (bugTask != null) {
+            defualtContext.executeStrategy(bugTask);
+            System.out.println();
+            twiceDebugContext.executeStrategy(bugTask2);
+        }
+
+        if (featureTask != null) {
+            defualtContext.executeStrategy(featureTask);
+        }
+
+        if (managementTask != null) {
+            defualtContext.executeStrategy(managementTask);
+        }
     }
 }

@@ -11,6 +11,7 @@ import edu.pattern.management.entity.Task;
 public class CompositeTaskHandler extends AbstractTaskHandler {
     /**
      * Constructor of CompositeTaskHandler, setting the next Handler in the chain.
+     *
      * @param successor next Handler
      */
     public CompositeTaskHandler(TaskHandler successor) {
@@ -19,6 +20,7 @@ public class CompositeTaskHandler extends AbstractTaskHandler {
 
     /**
      * Method for checking whether the Task is CompositeTask.
+     *
      * @param task task to handle
      * @return boolean value
      */
@@ -29,11 +31,12 @@ public class CompositeTaskHandler extends AbstractTaskHandler {
 
     /**
      * Method for processing the CompositeTask (processing all subtasks).
+     *
      * @param task task to handle
      */
     @Override
     protected void processTask(Task task) {
-        logger.info("CompositeTaskHandler processTask" );
+        logger.info("CompositeTaskHandler processTask");
         System.out.println("CompositeTaskHandler:");
         CompositeTask task1 = (CompositeTask) task;
         for (Task subTask : task1.getTasks()) {

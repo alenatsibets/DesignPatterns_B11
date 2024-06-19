@@ -7,9 +7,10 @@ import edu.pattern.management.entity.FeatureTask;
 /**
  * FeatureTaskFactory class implements TaskFactory interface.
  */
-public class FeatureTaskFactory implements TaskFactory {
+public class FeatureTaskFactory extends TaskFactory {
     /**
      * Method for creating a new FeatureTask.
+     *
      * @return new FeatureTask
      */
     @Override

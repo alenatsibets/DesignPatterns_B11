@@ -7,9 +7,10 @@ import edu.pattern.management.factory.TaskFactory;
 /**
  * CompositeTaskFactory class implements TaskFactory interface.
  */
-public class CompositeTaskFactory implements TaskFactory {
+public class CompositeTaskFactory extends TaskFactory {
     /**
      * Method for creating a new CompositeTask.
+     *
      * @return new CompositeTask
      */
     @Override

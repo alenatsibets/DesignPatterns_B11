@@ -8,6 +8,7 @@ import edu.pattern.management.entity.Task;
 public interface TaskHandler {
     /**
      * Method for handling a specific Task.
+     *
      * @param task task to handle
      */
     void handleTask(Task task);

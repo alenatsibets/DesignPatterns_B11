@@ -4,12 +4,14 @@ import edu.pattern.management.entity.Task;
 import edu.pattern.management.entity.ManagementTask;
 import edu.pattern.management.factory.TaskFactory;
 
+
 /**
  * ManagementTaskFactory class implements TaskFactory interface.
  */
-public class ManagementTaskFactory implements TaskFactory {
+public class ManagementTaskFactory extends TaskFactory {
     /**
      * Method for creating a new ManagementTask.
+     *
      * @return new ManagementTask
      */
     @Override
@@ -17,4 +19,5 @@ public class ManagementTaskFactory implements TaskFactory {
         logger.info("Creating Management Task");
         return new ManagementTask(name, deadline, personName, description);
     }
+
 }

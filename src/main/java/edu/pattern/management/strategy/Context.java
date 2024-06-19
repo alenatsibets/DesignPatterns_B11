@@ -9,16 +9,17 @@ import org.apache.logging.log4j.Logger;
  */
 public class Context {
     /**
-     * Logger (configuration is declared in log4j2.xml file)
+     * Logger (configuration is declared in log4j2.xml file).
      */
     static Logger logger = LogManager.getLogger();
     /**
-     * The chosen Strategy
+     * The chosen Strategy.
      */
     private TaskProcessingStrategy strategy;
 
     /**
      * Constructor for declaring the chosen Strategy.
+     *
      * @param strategy chosen Strategy
      */
     public Context(TaskProcessingStrategy strategy) {
@@ -28,6 +29,7 @@ public class Context {
 
     /**
      * Method for executing the Strategy.
+     *
      * @param task task to handle
      */
     public void executeStrategy(Task task) {

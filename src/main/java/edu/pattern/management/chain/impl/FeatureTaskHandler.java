@@ -11,6 +11,7 @@ import edu.pattern.management.entity.Task;
 public class FeatureTaskHandler extends AbstractTaskHandler {
     /**
      * Constructor of FeatureTaskHandler, setting the next Handler in the chain.
+     *
      * @param successor next Handler
      */
     public FeatureTaskHandler(TaskHandler successor) {
@@ -19,6 +20,7 @@ public class FeatureTaskHandler extends AbstractTaskHandler {
 
     /**
      * Method for checking whether the Task is FeatureTask.
+     *
      * @param task task to handle
      * @return boolean value
      */
@@ -29,11 +31,12 @@ public class FeatureTaskHandler extends AbstractTaskHandler {
 
     /**
      * Method for processing the FeatureTask.
+     *
      * @param task task to handle
      */
     @Override
     protected void processTask(Task task) {
-        logger.info("FeatureTaskHandler processTask" );
+        logger.info("FeatureTaskHandler processTask");
         System.out.println("FeatureTaskHandler:");
         task.process();
     }

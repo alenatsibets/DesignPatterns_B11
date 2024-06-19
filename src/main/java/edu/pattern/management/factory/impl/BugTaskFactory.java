@@ -7,9 +7,10 @@ import edu.pattern.management.entity.BugTask;
 /**
  * BugTaskFactory class implements TaskFactory interface.
  */
-public class BugTaskFactory implements TaskFactory {
+public class BugTaskFactory extends TaskFactory {
     /**
      * BugTaskFactory for creating a new BugTask.
+     *
      * @return new BugTask
      */
     @Override

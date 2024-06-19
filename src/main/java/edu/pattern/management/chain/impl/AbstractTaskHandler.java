@@ -21,6 +21,7 @@ public abstract class AbstractTaskHandler implements TaskHandler {
 
     /**
      * Constructor for making a chain.
+     *
      * @param successor next Handler
      */
     protected AbstractTaskHandler(TaskHandler successor) {
@@ -29,6 +30,7 @@ public abstract class AbstractTaskHandler implements TaskHandler {
 
     /**
      * Method for checking whether the Task type is compatible with the Handler task.
+     *
      * @param task task to handle
      * @return boolean value
      */
@@ -39,6 +41,7 @@ public abstract class AbstractTaskHandler implements TaskHandler {
     /**
      * Method for executing the chain. It uses processTask(Task task) method
      * and give this opportunity for the next Handler.
+     *
      * @param task task to handle
      */
     @Override
@@ -54,6 +57,7 @@ public abstract class AbstractTaskHandler implements TaskHandler {
 
     /**
      * Method for processing the Task.
+     *
      * @param task task to handle
      */
     protected abstract void processTask(Task task);

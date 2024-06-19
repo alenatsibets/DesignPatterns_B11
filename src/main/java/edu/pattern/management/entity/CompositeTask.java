@@ -25,6 +25,7 @@ public class CompositeTask extends Task {
 
     /**
      * Method for adding a Task to the CompositeTask list.
+     *
      * @param task Task to implement in a queue
      */
     public void addTask(Task task) {
@@ -33,6 +34,7 @@ public class CompositeTask extends Task {
 
     /**
      * Method for removing the Task from the CompositeTask list.
+     *
      * @param task what Task to remove
      */
     public void removeTask(Task task) {
@@ -48,6 +50,7 @@ public class CompositeTask extends Task {
 
     /**
      * Method for getting the first Task from the CompositeTask list.
+     *
      * @return the first Task in a list
      */
     public Task getFirstTask() {
@@ -56,6 +59,7 @@ public class CompositeTask extends Task {
 
     /**
      * Method for getting the CompositeTask list.
+     *
      * @return list of Tasks
      */
     public LinkedList<Task> getTasks() {
@@ -64,6 +68,7 @@ public class CompositeTask extends Task {
 
     /**
      * Method for setting list of Tasks as a CompositeTask list.
+     *
      * @param tasks list of Tasks to set
      */
     public void setTasks(LinkedList<Task> tasks) {
@@ -72,6 +77,7 @@ public class CompositeTask extends Task {
 
     /**
      * Method for checking whether all subtasks are completed.
+     *
      * @return boolean value
      */
     private boolean allSubTasksCompleted() {

@@ -7,15 +7,15 @@ import edu.pattern.management.chain.impl.ManagementTaskHandler;
 import edu.pattern.management.entity.CompositeTask;
 import edu.pattern.management.entity.Task;
 import edu.pattern.management.entity.TaskStatus;
+import edu.pattern.management.exception.TaskException;
 import edu.pattern.management.factory.TaskFactory;
-import edu.pattern.management.factory.impl.BugTaskFactory;
-import edu.pattern.management.factory.impl.CompositeTaskFactory;
-import edu.pattern.management.factory.impl.FeatureTaskFactory;
-import edu.pattern.management.factory.impl.ManagementTaskFactory;
+import edu.pattern.management.factory.impl.*;
 import edu.pattern.management.strategy.Context;
 import edu.pattern.management.strategy.impl.DefaultStrategy;
 import edu.pattern.management.strategy.impl.TwiceDebugStrategy;
 import edu.pattern.management.strategy.impl.UsualStrategy;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,13 +23,16 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for a project.
  */
 class B11Test {
+    /**
+     * Logger (configuration is declared in log4j2.xml file).
+     */
+    static Logger logger = LogManager.getLogger();
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
@@ -53,25 +56,27 @@ class B11Test {
     //Status checks
     @Test
     void checkStatusOfCreatedTask() {
-        TaskFactory bugFactory = new BugTaskFactory();
-        Task bugTask = bugFactory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task bugTask = factory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
                 "BugTask: Investigate and resolve the database connection problem affecting the application.");
 
         assertEquals(TaskStatus.TO_DO, bugTask.status);
     }
+
     @Test
     void checkStatusOfProcessedTask() {
-        TaskFactory bugFactory = new BugTaskFactory();
-        Task bugTask = bugFactory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task bugTask = factory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
                 "BugTask: Investigate and resolve the database connection problem affecting the application.");
         bugTask.process();
 
         assertEquals(TaskStatus.DONE, bugTask.status);
     }
+
     @Test
     void checkStatusOfTaskInProcess() {
-        TaskFactory bugFactory = new BugTaskFactory();
-        Task bugTask = bugFactory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task bugTask = factory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
                 "BugTask: Investigate and resolve the database connection problem affecting the application.");
         bugTask.setStatus(TaskStatus.IN_PROCESS);
 
@@ -81,41 +86,43 @@ class B11Test {
     //Task processing output
     @Test
     void checkBugTaskOutput() {
-        TaskFactory bugFactory = new BugTaskFactory();
-        Task bugTask = bugFactory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task bugTask = factory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
                 "BugTask: Investigate and resolve the database connection problem affecting the application.");
         bugTask.process();
 
         assertTrue(outContent.toString().contains("BugTask is processed... "));
     }
+
     @Test
     void checkFeatureTaskOutput() {
-        TaskFactory featureFactory = new FeatureTaskFactory();
-        Task featureTask = featureFactory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task featureTask = factory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
                 "FeatureTask: Create a secure authentication system for user login.");
         featureTask.process();
 
         assertTrue(outContent.toString().contains("FeatureTask is processed... "));
     }
+
     @Test
     void checkManagementTaskOutput() {
-        ManagementTaskFactory managementTaskFactory = new ManagementTaskFactory();
-        Task managementTask = managementTaskFactory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task managementTask = factory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
                 "ManagementTask: Organize agenda and schedule for the team meeting.");
         managementTask.process();
 
         assertTrue(outContent.toString().contains("ManagementTask is processed... "));
     }
+
     @Test
     void checkCompositeTaskOutput() {
-        CompositeTaskFactory compositeTaskFactory = new CompositeTaskFactory();
-        ManagementTaskFactory managementTaskFactory = new ManagementTaskFactory();
-        Task managementTask = managementTaskFactory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task managementTask = factory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
                 "ManagementTask: Organize agenda and schedule for the team meeting.");
         TaskFactory featureFactory = new FeatureTaskFactory();
         Task featureTask = featureFactory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
                 "FeatureTask: Create a secure authentication system for user login.");
-        CompositeTask compositeTask = (CompositeTask) compositeTaskFactory.createTask("User authentication", "2024-06-02", "Alice Johnson",
+        CompositeTask compositeTask = (CompositeTask) factory.createTask("User authentication", "2024-06-02", "Alice Johnson",
                 "CompositeTask: Create and debug a secure authentication system for user login.");
         compositeTask.addTask(managementTask);
         compositeTask.addTask(featureTask);
@@ -129,44 +136,46 @@ class B11Test {
     //Task complete output
     @Test
     void checkBugTaskCompletedOutput() {
-        TaskFactory bugFactory = new BugTaskFactory();
-        Task bugTask = bugFactory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task bugTask = factory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
                 "BugTask: Investigate and resolve the database connection problem affecting the application.");
         bugTask.process();
         bugTask.process();
 
         assertTrue(outContent.toString().contains("BugTask is completed."));
     }
+
     @Test
     void checkFeatureTaskCompletedOutput() {
-        TaskFactory featureFactory = new FeatureTaskFactory();
-        Task featureTask = featureFactory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task featureTask = factory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
                 "FeatureTask: Create a secure authentication system for user login.");
         featureTask.process();
         featureTask.process();
 
         assertTrue(outContent.toString().contains("FeatureTask is completed."));
     }
+
     @Test
     void checkManagementTaskCompletedOutput() {
-        ManagementTaskFactory managementTaskFactory = new ManagementTaskFactory();
-        Task managementTask = managementTaskFactory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task managementTask = factory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
                 "ManagementTask: Organize agenda and schedule for the team meeting.");
         managementTask.process();
         managementTask.process();
 
         assertTrue(outContent.toString().contains("ManagementTask is completed."));
     }
+
     @Test
     void checkCompositeTaskCompletedOutput() {
-        CompositeTaskFactory compositeTaskFactory = new CompositeTaskFactory();
-        ManagementTaskFactory managementTaskFactory = new ManagementTaskFactory();
-        Task managementTask = managementTaskFactory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task managementTask = factory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
                 "ManagementTask: Organize agenda and schedule for the team meeting.");
         TaskFactory featureFactory = new FeatureTaskFactory();
         Task featureTask = featureFactory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
                 "FeatureTask: Create a secure authentication system for user login.");
-        CompositeTask compositeTask = (CompositeTask) compositeTaskFactory.createTask("User authentication", "2024-06-02", "Alice Johnson",
+        CompositeTask compositeTask = (CompositeTask) factory.createTask("User authentication", "2024-06-02", "Alice Johnson",
                 "CompositeTask: Create and debug a secure authentication system for user login.");
         compositeTask.addTask(managementTask);
         compositeTask.addTask(featureTask);
@@ -179,44 +188,46 @@ class B11Test {
     //Task handlers output
     @Test
     void checkBugTaskHandlerOutput() {
-        TaskFactory bugFactory = new BugTaskFactory();
-        Task bugTask = bugFactory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task bugTask = factory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
                 "BugTask: Investigate and resolve the database connection problem affecting the application.");
         BugTaskHandler bugTaskHandler = new BugTaskHandler(null);
         bugTaskHandler.handleTask(bugTask);
 
         assertTrue(outContent.toString().contains("BugTaskHandler"));
     }
+
     @Test
     void checkFeatureTaskHandlerOutput() {
-        TaskFactory featureFactory = new FeatureTaskFactory();
-        Task featureTask = featureFactory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task featureTask = factory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
                 "FeatureTask: Create a secure authentication system for user login.");
         FeatureTaskHandler featureTaskHandler = new FeatureTaskHandler(null);
         featureTaskHandler.handleTask(featureTask);
 
         assertTrue(outContent.toString().contains("FeatureTaskHandler"));
     }
+
     @Test
     void checkManagementTaskHandlerOutput() {
-        ManagementTaskFactory managementTaskFactory = new ManagementTaskFactory();
-        Task managementTask = managementTaskFactory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task managementTask = factory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
                 "ManagementTask: Organize agenda and schedule for the team meeting.");
         ManagementTaskHandler managementTaskHandler = new ManagementTaskHandler(null);
         managementTaskHandler.handleTask(managementTask);
 
         assertTrue(outContent.toString().contains("ManagementTaskHandler"));
     }
+
     @Test
     void checkCompositeTaskHandlerOutput() {
-        CompositeTaskFactory compositeTaskFactory = new CompositeTaskFactory();
-        ManagementTaskFactory managementTaskFactory = new ManagementTaskFactory();
-        Task managementTask = managementTaskFactory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task managementTask = factory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
                 "ManagementTask: Organize agenda and schedule for the team meeting.");
         TaskFactory featureFactory = new FeatureTaskFactory();
         Task featureTask = featureFactory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
                 "FeatureTask: Create a secure authentication system for user login.");
-        CompositeTask compositeTask = (CompositeTask) compositeTaskFactory.createTask("User authentication", "2024-06-02", "Alice Johnson",
+        CompositeTask compositeTask = (CompositeTask) factory.createTask("User authentication", "2024-06-02", "Alice Johnson",
                 "CompositeTask: Create and debug a secure authentication system for user login.");
         compositeTask.addTask(managementTask);
         compositeTask.addTask(featureTask);
@@ -227,10 +238,11 @@ class B11Test {
         assertTrue(outContent.toString().contains("FeatureTask is processed... "));
         assertTrue(outContent.toString().contains("ManagementTask is processed... "));
     }
+
     @Test
     void checkManagementChainHandlerOutput() {
-        ManagementTaskFactory managementTaskFactory = new ManagementTaskFactory();
-        Task managementTask = managementTaskFactory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task managementTask = factory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
                 "ManagementTask: Organize agenda and schedule for the team meeting.");
         ManagementTaskHandler managementTaskHandler = new ManagementTaskHandler(new ManagementTaskHandler(null));
         managementTaskHandler.handleTask(managementTask);
@@ -243,8 +255,8 @@ class B11Test {
     //Strategy checks
     @Test
     void checkDefaultStrategyManagementOutput() {
-        ManagementTaskFactory managementTaskFactory = new ManagementTaskFactory();
-        Task managementTask = managementTaskFactory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task managementTask = factory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
                 "ManagementTask: Organize agenda and schedule for the team meeting.");
         Context defualtContext = new Context(new DefaultStrategy());
         defualtContext.executeStrategy(managementTask);
@@ -252,10 +264,11 @@ class B11Test {
         assertTrue(outContent.toString().contains("ManagementTaskHandler"));
         assertTrue(outContent.toString().contains("ManagementTask is processed... "));
     }
+
     @Test
     void checkDefaultStrategyBugOutput() {
-        TaskFactory bugFactory = new BugTaskFactory();
-        Task bugTask = bugFactory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task bugTask = factory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
                 "BugTask: Investigate and resolve the database connection problem affecting the application.");
         Context defualtContext = new Context(new DefaultStrategy());
         defualtContext.executeStrategy(bugTask);
@@ -263,10 +276,11 @@ class B11Test {
         assertTrue(outContent.toString().contains("BugTaskHandler"));
         assertTrue(outContent.toString().contains("BugTask is processed... "));
     }
+
     @Test
     void checkDefaultStrategyFeatureOutput() {
-        TaskFactory featureFactory = new FeatureTaskFactory();
-        Task featureTask = featureFactory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task featureTask = factory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
                 "FeatureTask: Create a secure authentication system for user login.");
         Context defualtContext = new Context(new DefaultStrategy());
         defualtContext.executeStrategy(featureTask);
@@ -274,16 +288,16 @@ class B11Test {
         assertTrue(outContent.toString().contains("FeatureTaskHandler"));
         assertTrue(outContent.toString().contains("FeatureTask is processed... "));
     }
+
     @Test
     void checkDefaultStrategyCompositeOutput() {
-        CompositeTaskFactory compositeTaskFactory = new CompositeTaskFactory();
-        ManagementTaskFactory managementTaskFactory = new ManagementTaskFactory();
-        Task managementTask = managementTaskFactory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task managementTask = factory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
                 "ManagementTask: Organize agenda and schedule for the team meeting.");
         TaskFactory featureFactory = new FeatureTaskFactory();
         Task featureTask = featureFactory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
                 "FeatureTask: Create a secure authentication system for user login.");
-        CompositeTask compositeTask = (CompositeTask) compositeTaskFactory.createTask("User authentication", "2024-06-02", "Alice Johnson",
+        CompositeTask compositeTask = (CompositeTask) factory.createTask("User authentication", "2024-06-02", "Alice Johnson",
                 "CompositeTask: Create and debug a secure authentication system for user login.");
         compositeTask.addTask(managementTask);
         compositeTask.addTask(featureTask);
@@ -292,19 +306,17 @@ class B11Test {
 
         assertTrue(outContent.toString().contains("CompositeTaskHandler"));
     }
+
     @Test
     void checkUsualStrategyOutput() {
-        CompositeTaskFactory compositeTaskFactory = new CompositeTaskFactory();
-        ManagementTaskFactory managementTaskFactory = new ManagementTaskFactory();
-        BugTaskFactory bugFactory = new BugTaskFactory();
-        FeatureTaskFactory featureFactory = new FeatureTaskFactory();
-        Task bugTask = bugFactory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task bugTask = factory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
                 "BugTask: Investigate and resolve the database connection problem affecting the application.");
-        Task managementTask = managementTaskFactory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
+        Task managementTask = factory.createTask("Plan team meeting", "2024-05-30", "Charlie Brown",
                 "ManagementTask: Organize agenda and schedule for the team meeting.");
-        Task featureTask = featureFactory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
+        Task featureTask = factory.createTask("Implement user authentication", "2024-05-25", "Alice Johnson",
                 "FeatureTask: Create a secure authentication system for user login.");
-        CompositeTask compositeTask = (CompositeTask) compositeTaskFactory.createTask("User authentication", "2024-06-02", "Alice Johnson",
+        CompositeTask compositeTask = (CompositeTask) factory.createTask("User authentication", "2024-06-02", "Alice Johnson",
                 "CompositeTask: Create and debug a secure authentication system for user login.");
         compositeTask.addTask(managementTask);
         compositeTask.addTask(featureTask);
@@ -316,10 +328,11 @@ class B11Test {
         assertTrue(outContent.toString().contains("FeatureTaskHandler"));
         assertTrue(outContent.toString().contains("BugTaskHandler"));
     }
+
     @Test
     void checkTwiceDebugStrategyOutput() {
-        BugTaskFactory bugFactory = new BugTaskFactory();
-        Task bugTask = bugFactory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
+        TaskFactory factory = new GeneralTaskFactory();
+        Task bugTask = factory.createTask("Fix database connection issue", "2024-06-02", "Bob Smith",
                 "BugTask: Investigate and resolve the database connection problem affecting the application.");
         Context usualContext = new Context(new TwiceDebugStrategy());
         usualContext.executeStrategy(bugTask);
@@ -327,5 +340,31 @@ class B11Test {
         assertTrue(outContent.toString().contains("BugTaskHandler"));
         assertTrue(outContent.toString().contains("BugTask is processed... "));
         assertTrue(outContent.toString().contains("BugTask is completed."));
+    }
+
+    //check reader functionality
+    @Test
+    void checkReader() {
+        TaskFactory factory = new GeneralTaskFactory();
+        Task bugTask = factory.createTask("Fix database connection issue", "2024-06-02", "Alice Johnson",
+                "BugTask. Investigate and resolve the database connection problem affecting the application.");
+        Task bugTask2 = null;
+        try {
+            bugTask2 = factory.createTask("task/bugTask.yaml");
+        } catch (TaskException e) {
+            logger.error("Cannot read the file", e);
+        }
+
+        assertEquals(bugTask, bugTask2);
+    }
+
+    //check TaskException
+    @Test
+    void checkException() {
+        TaskFactory factory = new GeneralTaskFactory();
+
+        assertThrows(TaskException.class, () -> {
+            factory.createTask("");
+        });
     }
 }

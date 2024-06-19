@@ -11,6 +11,7 @@ import edu.pattern.management.entity.Task;
 public class ManagementTaskHandler extends AbstractTaskHandler {
     /**
      * Constructor of ManagementTaskHandler, setting the next Handler in the chain.
+     *
      * @param successor next Handler
      */
     public ManagementTaskHandler(TaskHandler successor) {
@@ -19,6 +20,7 @@ public class ManagementTaskHandler extends AbstractTaskHandler {
 
     /**
      * Method for checking whether the Task is ManagementTask.
+     *
      * @param task task to handle
      * @return boolean value
      */
@@ -29,11 +31,12 @@ public class ManagementTaskHandler extends AbstractTaskHandler {
 
     /**
      * Method for processing the ManagementTask.
+     *
      * @param task task to handle
      */
     @Override
     protected void processTask(Task task) {
-        logger.info("ManagementTaskHandler processTask" );
+        logger.info("ManagementTaskHandler processTask");
         System.out.println("ManagementTaskHandler:");
         task.process();
     }

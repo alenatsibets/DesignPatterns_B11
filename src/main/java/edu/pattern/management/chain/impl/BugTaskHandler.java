@@ -11,6 +11,7 @@ import edu.pattern.management.entity.Task;
 public class BugTaskHandler extends AbstractTaskHandler {
     /**
      * Constructor of BugTaskHandler, setting the next Handler in the chain.
+     *
      * @param successor next Handler
      */
     public BugTaskHandler(TaskHandler successor) {
@@ -19,6 +20,7 @@ public class BugTaskHandler extends AbstractTaskHandler {
 
     /**
      * Method for checking whether the Task is BugTask.
+     *
      * @param task task to handle
      * @return boolean value
      */
@@ -29,11 +31,12 @@ public class BugTaskHandler extends AbstractTaskHandler {
 
     /**
      * Method for processing the BugTask.
+     *
      * @param task task to handle
      */
     @Override
     protected void processTask(Task task) {
-        logger.info("BugTaskHandler processTask" );
+        logger.info("BugTaskHandler processTask");
         System.out.println("BugTaskHandler:");
         task.process();
     }

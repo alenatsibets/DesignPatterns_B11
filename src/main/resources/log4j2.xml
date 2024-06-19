@@ -2,7 +2,7 @@
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout>
-                <pattern> %r [%-5level] [%t] %c{1} - %msg%n </pattern>
+                <pattern>%r [%-5level] [%t] %c{1} - %msg%n</pattern>
                 >
             </PatternLayout>
         </Console>

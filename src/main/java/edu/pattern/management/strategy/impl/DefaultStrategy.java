@@ -13,6 +13,7 @@ import edu.pattern.management.strategy.TaskProcessingStrategy;
 public class DefaultStrategy implements TaskProcessingStrategy {
     /**
      * Method for calling corresponding TaskHandler to process single Task.
+     *
      * @param task task to handle
      */
     @Override

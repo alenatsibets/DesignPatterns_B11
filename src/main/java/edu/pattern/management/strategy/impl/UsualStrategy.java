@@ -15,6 +15,7 @@ import edu.pattern.management.strategy.TaskProcessingStrategy;
 public class UsualStrategy implements TaskProcessingStrategy {
     /**
      * Method for handling CompositeTask with a defined structure (UsualStrategy).
+     *
      * @param task CompositeTask to handle
      */
     @Override

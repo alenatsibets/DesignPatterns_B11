@@ -11,6 +11,7 @@ import edu.pattern.management.strategy.TaskProcessingStrategy;
 public class TwiceDebugStrategy implements TaskProcessingStrategy {
     /**
      * Method for twice handling the BudTask.
+     *
      * @param task BugTask to handle
      */
     @Override
